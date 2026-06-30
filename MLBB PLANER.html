@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLBB Calculator Portal Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <nav class="navbar">
+            <button class="nav-btn active" onclick="bukaTab('rankPlanner')">🚀 Rank Planner</button>
+            <button class="nav-btn" onclick="bukaTab('winrateCalc')">📊 Kalkulator WR</button>
+            <button class="nav-btn" onclick="bukaTab('mmrCalc')">🔮 Kalkulator MMR</button>
+        </nav>
+
+        <div class="container">
+            
+            <div id="tab-rankPlanner" class="tab-content active-tab">
+                <div id="slideInput" class="slide">
+                    <h2>MLBB Rank Planner</h2>
+                    <p>Hitung estimasi hari mencapai rank impian!</p>
+                    <div class="form-group">
+                        <label>Rank Saat Ini:</label>
+                        <select id="currentRank" onchange="cekTampilanInput()">
+                            <option value="Warrior III">Warrior III</option>
+                            <option value="Warrior II">Warrior II</option>
+                            <option value="Warrior I">Warrior I</option>
+                            <option value="Elite IV">Elite IV</option>
+                            <option value="Elite III">Elite III</option>
+                            <option value="Elite II">Elite II</option>
+                            <option value="Elite I">Elite I</option>
+                            <option value="Master IV">Master IV</option>
+                            <option value="Master III">Master III</option>
+                            <option value="Master II">Master II</option>
+                            <option value="Master I">Master I</option>
+                            <option value="Grandmaster V">Grandmaster V</option>
+                            <option value="Grandmaster IV">Grandmaster IV</option>
+                            <option value="Grandmaster III">Grandmaster III</option>
+                            <option value="Grandmaster II">Grandmaster II</option>
+                            <option value="Grandmaster I">Grandmaster I</option>
+                            <option value="Epic V">Epic V</option>
+                            <option value="Epic IV">Epic IV</option>
+                            <option value="Epic III">Epic III</option>
+                            <option value="Epic II">Epic II</option>
+                            <option value="Epic I">Epic I</option>
+                            <option value="Legend V">Legend V</option>
+                            <option value="Legend IV" selected>Legend IV</option>
+                            <option value="Legend III">Legend III</option>
+                            <option value="Legend II">Legend II</option>
+                            <option value="Legend I">Legend I</option>
+                            <option value="Mythic">Mythic (0-24 🌟)</option>
+                            <option value="Honor">Mythical Honor (25-49 🌟)</option>
+                            <option value="Glory">Mythical Glory (50-99 🌟)</option>
+                            <option value="Immortal">Mythic Immortal (100+ 🌟)</option>
+                        </select>
+                        <div id="currentStarsGroup">
+                            <input type="number" id="currentStars" min="0" placeholder="Bintang Sekarang" value="5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Rank Target:</label>
+                        <select id="targetRank" onchange="cekTampilanInput()">
+                            <option value="Warrior III">Warrior III</option>
+                            <option value="Warrior II">Warrior II</option>
+                            <option value="Warrior I">Warrior I</option>
+                            <option value="Elite IV">Elite IV</option>
+                            <option value="Elite III">Elite III</option>
+                            <option value="Elite II">Elite II</option>
+                            <option value="Elite I">Elite I</option>
+                            <option value="Master IV">Master IV</option>
+                            <option value="Master III">Master III</option>
+                            <option value="Master II">Master II</option>
+                            <option value="Master I">Master I</option>
+                            <option value="Grandmaster V">Grandmaster V</option>
+                            <option value="Grandmaster IV">Grandmaster IV</option>
+                            <option value="Grandmaster III">Grandmaster III</option>
+                            <option value="Grandmaster II">Grandmaster II</option>
+                            <option value="Grandmaster I">Grandmaster I</option>
+                            <option value="Epic V">Epic V</option>
+                            <option value="Epic IV">Epic IV</option>
+                            <option value="Epic III">Epic III</option>
+                            <option value="Epic II">Epic II</option>
+                            <option value="Epic I">Epic I</option>
+                            <option value="Legend V">Legend V</option>
+                            <option value="Legend IV">Legend IV</option>
+                            <option value="Legend III">Legend III</option>
+                            <option value="Legend II">Legend II</option>
+                            <option value="Legend I">Legend I</option>
+                            <option value="Mythic">Mythic (0-24 🌟)</option>
+                            <option value="Honor">Mythical Honor (25-49 🌟)</option>
+                            <option value="Glory">Mythical Glory (50-99 🌟)</option>
+                            <option value="Immortal" selected>Mythic Immortal (100+ 🌟)</option>
+                        </select>
+                        <div id="targetStarsGroup" class="hide">
+                            <input type="number" id="targetSub" min="0" placeholder="Target Bintang (Misal: 100)" value="100">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Target Bintang Per Hari:</label>
+                        <input type="number" id="starsPerDay" min="1" value="5">
+                    </div>
+                    <button onclick="hitungEstimasi()">Hitung Estimasi</button>
+                </div>
+
+                <div id="slideResult" class="slide hide">
+                    <h2>Hasil Analisis 📊</h2>
+                    <div class="analysis-list">
+                        <div class="analysis-item"><span class="label">Bintang Saat Ini:</span><span id="resBintangSekarang" class="value">0</span></div>
+                        <div class="analysis-item"><span class="label">Target Bintang:</span><span id="resBintangTarget" class="value text-blue">0</span></div>
+                        <div class="analysis-item"><span class="label">Kekurangan:</span><span id="resKekurangan" class="value text-red">0</span></div>
+                        <div class="analysis-item"><span class="label">Estimasi:</span><span id="resEstimasiHari" class="value text-yellow">0 Hari</span></div>
+                        <div class="analysis-item"><span class="label">Progres:</span><span id="resProgres" class="value text-green">0%</span></div>
+                        <div class="analysis-item full-row"><span class="label">Estimasi Selesai:</span><span id="resTanggalSelesai" class="value highlight-date">-</span></div>
+                    </div>
+                    <button onclick="kembaliKeInput()" class="btn-back">⬅️ Hitung Ulang</button>
+                </div>
+            </div>
+
+            <div id="tab-winrateCalc" class="tab-content hide">
+                <h2>Kalkulator Win Rate 📊</h2>
+                <p>Pilih tipe perhitungan WR yang kamu butuhkan di bawah ini.</p>
+                
+                <div class="form-group">
+                    <label>Tipe Perhitungan:</label>
+                    <select id="tipeWr" onchange="gantiFormWr()">
+                        <option value="kejar">Mengejar Target Win Rate (% WR Naik)</option>
+                        <option value="hitungTotal">Hitung Total WR (Sesudah Ditambah Match Baru)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Total Match Saat Ini:</label>
+                    <input type="number" id="wrTotalMatch" value="500" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Win Rate Saat Ini (%):</label>
+                    <input type="number" id="wrCurrent" value="55" min="0" max="100">
+                </div>
+
+                <div class="form-group" id="groupTargetWr">
+                    <label>Target Win Rate Yang Diinginkan (%):</label>
+                    <input type="number" id="wrTarget" value="60" min="0" max="100">
+                </div>
+
+                <div class="form-group hide" id="groupMatchTambahan">
+                    <label>Rencana Match Tambahan (Ke Depan):</label>
+                    <input type="number" id="matchTambahan" value="50" min="1">
+                    <label style="margin-top: 10px;">Estimasi WR di Match Baru Tersebut (%):</label>
+                    <input type="number" id="wrTambahan" value="70" min="0" max="100">
+                </div>
+
+                <button onclick="prosesHitungWr()">Hitung Win Rate</button>
+
+                <div id="wrResult" class="result-box hide" style="margin-top:15px; padding:15px; background:#14141f; border-radius:8px;">
+                    <p id="wrResultText" style="text-align:center; font-weight:bold; color:#4ade80; margin:0; line-height: 1.5;"></p>
+                </div>
+            </div>
+
+            <div id="tab-mmrCalc" class="tab-content hide">
+                <h2>Kalkulator MMR Hero 🔮</h2>
+                <p>Estimasi poin MMR setelah memenangkan pertandingan.</p>
+                <div class="form-group">
+                    <label>MMR Hero Sekarang:</label>
+                    <input type="number" id="mmrCurrent" value="2500" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Hasil Match Berikutnya:</label>
+                    <select id="mmrResultType">
+                        <option value="win_mvp">Menang + MVP (±40 Poin)</option>
+                        <option value="win_normal">Menang Biasa (±25 Poin)</option>
+                        <option value="lose_normal">Kalah Biasa (-20 Poin)</option>
+                        <option value="lose_troll">Kalah + Coklat (-35 Poin)</option>
+                    </select>
+                </div>
+                <button onclick="hitungMMR()">Prediksi MMR</button>
+                <div id="mmrResult" class="result-box hide" style="margin-top:15px; padding:15px; background:#14141f; border-radius:8px; text-align:center;">
+                    <p id="mmrResultText" style="font-weight:bold; color:#38bdf8;"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
